@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Department>
+@{
+    ViewData["Title"] = "Index";
+
+    string VBagMessage = ViewBag.Message; // Does not Enforce Type Safety (ViewBag is Loosly Typed)
+    string VDataMessage = ViewData["Message"] as string; // Enforce Type Safety (ViewData is Strongly Typed)
+}
+
+<h1>All Departments</h1>
+<br />
+<a asp-action="Create" class="btn btn-primary">Create New Department</a>
+<br />
+<br />
+@*<div class="alert alert-info">
+    @ViewData["Message"]
+    </div>
+    <div class="alert alert-info">
+    @ViewBag.Message
+    </div>*@
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-info">
+        @ViewData["Message"]
+    </div>
+}
+@if (Model?.Count() > 0)
+{
+    <table class="table table-stripped table-hover">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(M => M.Code)</th>
+                <th>@Html.DisplayNameFor(M => M.Name)</th>
+                <th>Details</th>
+                <th>Update</th>
+                <th>Delete</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Code</td>
+                    <td>@item.Name</td>
+                    <partial name="_ButtonsPartialView" model="item.Id.ToString()" />
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-warning">
+        <h4>No Departments Found!!</h4>
+    </div>
+}
+
